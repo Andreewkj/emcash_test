@@ -4,6 +4,8 @@ Projeto desenvolvido para análise de conhecimento técnico da empresa emCash.
 
 Neste projeto é possivél realizar o cadastros de triângulos e retangulos, onde apartir das medidas inseridas é feito o calcula da área dos mesmos.
 
+As rotas para cadastro estão descritas abaixo mas também pode ser visualizado resultados e exemplos na documentação https://documenter.getpostman.com/view/19568572/UVksLZn8 .
+
 ### Triângulos
 
 Para realizar o cadastros triângulos utilizamos rotas com o metódo POST http://127.0.0.1:8000/api/triangles passando como parâmetro suas medidas 'side_1','side_2' e 'side_3'.
@@ -23,3 +25,7 @@ Para retornar todos cadastrados no banco utilizamos a metódo GET http://127.0.0
 ### Organização
 
 Decidi usar uma trait para fazer os calculos matemáticos que resultam nas respectivas areas dos poligônos.
+
+### Teste
+
+Foi criado um teste que garanti que a conexão com o banco esta sendo realizada e que é possivél fazer o cadastro dos polígonos
