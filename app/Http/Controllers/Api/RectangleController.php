@@ -70,7 +70,8 @@ class RectangleController extends Controller
      */
     public function show($id)
     {
-        //
+        $rectangle = $this->rectangle->find($id);
+        return \response()->json($rectangle);
     }
 
 }

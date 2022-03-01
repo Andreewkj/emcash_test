@@ -71,7 +71,9 @@ class TriangleController extends Controller
      */
     public function show($id)
     {
-        //
+        $triangle = $this->triangle->find($id);
+        return \response()->json($triangle);
     }
+
 
 }

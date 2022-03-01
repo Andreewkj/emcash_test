@@ -23,4 +23,5 @@ class HandleDbTest extends TestCase
         $this->assertDatabaseHas('triangles', ['area' => $createdTriangle->area]);
         
     }
+    
 }

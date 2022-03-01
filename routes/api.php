@@ -27,6 +27,7 @@ Route::namespace('Api')->group(function(){
 
         Route::get('/', [TriangleController::class, 'index']);
         Route::post('/', [TriangleController::class, 'store']);
+        Route::get('/{id}', [TriangleController::class, 'show']);
 
     });
 
@@ -34,6 +35,7 @@ Route::namespace('Api')->group(function(){
 
         Route::get('/', [RectangleController::class, 'index']);
         Route::post('/', [RectangleController::class, 'store']);
+        Route::get('/{id}', [RectangleController::class, 'show']);
 
     });
 });
