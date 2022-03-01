@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\RectangleController;
 use App\Http\Controllers\Api\TriangleController;
 use App\Models\Triangle;
 use Illuminate\Http\Request;
@@ -26,6 +27,13 @@ Route::namespace('Api')->group(function(){
 
         Route::get('/', [TriangleController::class, 'index']);
         Route::post('/', [TriangleController::class, 'store']);
+
+    });
+
+    Route::prefix('rectangles')->group(function(){
+
+        Route::get('/', [RectangleController::class, 'index']);
+        Route::post('/', [RectangleController::class, 'store']);
 
     });
 });

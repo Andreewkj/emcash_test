@@ -3,20 +3,20 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Models\Triangle;
+use App\Models\Rectangle;
 use Illuminate\Http\Request;
 
-class TriangleController extends Controller
+class RectangleController extends Controller
 {
 
-    /**
-     * @var Triangle
+     /**
+     * @var Rectangle
      */
 
-    private $triangle;
+    private $rectangle;
     
-    public function __construct(Triangle $triangle) {
-        $this->triangle = $triangle;
+    public function __construct(Rectangle $rectangle) {
+        $this->rectangle = $rectangle;
     }
 
     /**
@@ -26,7 +26,7 @@ class TriangleController extends Controller
      */
     public function index()
     {
-        return 'nothing yet';
+        return 'retangulos aqui';
     }
 
     /**
@@ -38,29 +38,33 @@ class TriangleController extends Controller
     public function store(Request $request)
     {
         $data = $request->all();
-        $maxSide = max($data);
-        $otherSides = array_sum($data) - $maxSide;
+        $dataCheck = $data;
+        $side_1 = $data['side_1'];
+        $side_2 = $data['side_2'];
 
-        $isTriangle = ($maxSide < $otherSides) ? true : false ;
+        $check = array_splice($dataCheck, 2, 4);
 
-        if ($isTriangle) {
+        if(in_array($side_1, $check) && in_array($side_2, $check))
+        { 
+            $area = max($data) * min($data);
+            $result = 'Medidas ok';
 
-            $perimeter = array_sum($data) / 2;
-
-            $area = \sqrt($perimeter * ($perimeter - $data['side_1']) * ($perimeter - $data['side_2']) * ($perimeter - $data['side_3']));
 
         }else{
-            $area = 'As medidas não são o suficiente para formar um triângulo';
+
+            $result = 'As medidas inseridas não formam um retângulo';
         }
-        
-        $triangle = $this->triangle->create([
+
+        $rectangle = $this->rectangle->create([
             'side_1' => $data['side_1'],
             'side_2' => $data['side_2'],
             'side_3' => $data['side_3'],
+            'side_4' => $data['side_4'],
             'area' => $area
         ]);
 
-        return \response()->json($triangle);
+        return \response()->json($data);
+        
     }
 
     /**
