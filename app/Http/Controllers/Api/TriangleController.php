@@ -5,9 +5,11 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Triangle;
 use Illuminate\Http\Request;
+use App\helpers\Conversion;
 
 class TriangleController extends Controller
 {
+    Use Conversion;
 
     /**
      * @var Triangle
@@ -26,7 +28,8 @@ class TriangleController extends Controller
      */
     public function index()
     {
-        return 'nothing yet';
+        $triangle = $this->triangle->select('id','area')->get();
+        return \response()->json($triangle);
     }
 
     /**
@@ -37,30 +40,27 @@ class TriangleController extends Controller
      */
     public function store(Request $request)
     {
-        $data = $request->all();
-        $maxSide = max($data);
-        $otherSides = array_sum($data) - $maxSide;
+        $sides = $request->all();
 
-        $isTriangle = ($maxSide < $otherSides) ? true : false ;
+        if($this->isTringle($sides))
+        {
+            $area = $this->calcTriangleArea($sides);
 
-        if ($isTriangle) {
-
-            $perimeter = array_sum($data) / 2;
-
-            $area = \sqrt($perimeter * ($perimeter - $data['side_1']) * ($perimeter - $data['side_2']) * ($perimeter - $data['side_3']));
+            $triangle = $this->triangle->create([
+                'side_1' => $sides['side_1'],
+                'side_2' => $sides['side_2'],
+                'side_3' => $sides['side_3'],
+                'area' => $area
+            ]);
+    
+            return \response()->json($triangle);
 
         }else{
-            $area = 'As medidas não são o suficiente para formar um triângulo';
+            
+            return \response()->json('As medidas inseridas são inválidas.');
         }
         
-        $triangle = $this->triangle->create([
-            'side_1' => $data['side_1'],
-            'side_2' => $data['side_2'],
-            'side_3' => $data['side_3'],
-            'area' => $area
-        ]);
-
-        return \response()->json($triangle);
+        
     }
 
     /**

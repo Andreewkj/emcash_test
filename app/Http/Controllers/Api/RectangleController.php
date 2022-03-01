@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Helpers\Conversion;
 use App\Http\Controllers\Controller;
 use App\Models\Rectangle;
 use Illuminate\Http\Request;
@@ -9,6 +10,7 @@ use Illuminate\Http\Request;
 class RectangleController extends Controller
 {
 
+    Use Conversion;
      /**
      * @var Rectangle
      */
@@ -26,7 +28,8 @@ class RectangleController extends Controller
      */
     public function index()
     {
-        return 'retangulos aqui';
+        $rectangle = $this->rectangle->select('id','area')->get();
+        return \response()->json($rectangle);
     }
 
     /**
@@ -37,33 +40,25 @@ class RectangleController extends Controller
      */
     public function store(Request $request)
     {
-        $data = $request->all();
-        $dataCheck = $data;
-        $side_1 = $data['side_1'];
-        $side_2 = $data['side_2'];
+        $sides = $request->all();
 
-        $check = array_splice($dataCheck, 2, 4);
+        if($this->isRectangle($sides))
+        {
+            $area = $this->calcRectangleArea($sides);
 
-        if(in_array($side_1, $check) && in_array($side_2, $check))
-        { 
-            $area = max($data) * min($data);
-            $result = 'Medidas ok';
-
-
+            $rectangle = $this->rectangle->create([
+                'side_1' => $sides['side_1'],
+                'side_2' => $sides['side_2'],
+                'side_3' => $sides['side_3'],
+                'side_4' => $sides['side_4'],
+                'area' => $area
+            ]);
+    
+            return \response()->json($rectangle);
         }else{
-
-            $result = 'As medidas inseridas não formam um retângulo';
+            return \response()->json('As medidas inseridas são inválidas.');
         }
 
-        $rectangle = $this->rectangle->create([
-            'side_1' => $data['side_1'],
-            'side_2' => $data['side_2'],
-            'side_3' => $data['side_3'],
-            'side_4' => $data['side_4'],
-            'area' => $area
-        ]);
-
-        return \response()->json($data);
         
     }
 
