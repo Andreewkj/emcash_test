@@ -29,3 +29,25 @@ Decidi usar uma trait para fazer os calculos matemáticos que resultam nas respe
 ### Teste
 
 Foi criado um teste que garanti que a conexão com o banco esta sendo realizada e que é possivél fazer o cadastro dos polígonos
+
+### Docker
+Para utilizar o docker será necessário utilizar os comandos abaixo
+entre no container do php e atualize o composer
+docker exec -it php bash
+composer update
+
+#### Configuração do banco 
+MYSQL_USER: emcash
+MYSQL_PASSWORD: root
+MYSQL_DATABASE: emcash
+MYSQL_ROOT_PASSWORD: root
+
+### Sem Docker
+Para utilizar sem o docker basta intallar o composer e a versão do php acima do 7.4.
+Criar um database chamado emcash, alterar as informações a do banco como:
+DB_PORT=3306
+DB_DATABASE=emcash
+DB_USERNAME=root
+DB_PASSWORD=
+
+para o utilizado em sua maquina, e rodar o comando php artisan migrate.
